@@ -33,7 +33,7 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
 	ProjectileMovement->Deactivate();
 
-}
+} 
 
 void AProjectile::LaunchProjectile(float Speed)
 {
@@ -41,7 +41,8 @@ void AProjectile::LaunchProjectile(float Speed)
 	ProjectileMovement->Activate();
 }
 
+
 void AProjectile::OnTimerExpire()
 {
 	Destroy();
-}
+} 
