@@ -36,6 +36,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Components)
 		UStaticMeshComponent* CollisionMesh = nullptr;
 
+
 	UPROPERTY(EditDefaultsOnly, Category = SetUp)
 		float ProjectileDamage = 20;
 
