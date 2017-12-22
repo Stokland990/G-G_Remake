@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Coins.h"
-
+#include"Classes/GameFramework/Actor.h"
 
 // Sets default values
 ACoins::ACoins()
@@ -11,8 +11,6 @@ ACoins::ACoins()
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(FName("Collision Box"));
 	SetRootComponent(CollisionBox);
-	CollisionBox->SetNotifyRigidBodyCollision(true);
-	CollisionBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 
 	Coin = CreateDefaultSubobject<UParticleSystemComponent>(FName("Coin to collect"));
 	Coin->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -26,7 +24,7 @@ ACoins::ACoins()
 void ACoins::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionBox->OnComponentHit.AddDynamic(this, &ACoins::OnHit);
+	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACoins::OnOverlapBegin);
 }
 
 // Called every frame
@@ -36,9 +34,16 @@ void ACoins::Tick(float DeltaTime)
 
 }
 
-void ACoins::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+void ACoins::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	Coin->DestroyComponent();
 	CollectEffect->Activate();
 	CollisionBox->DestroyComponent();
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ACoins::OnTimerExpire, DestroyDelay, false);
+}
+
+void ACoins::OnTimerExpire()
+{
+	Destroy();
 }
