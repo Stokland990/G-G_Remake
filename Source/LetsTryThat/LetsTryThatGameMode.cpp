@@ -9,7 +9,7 @@ ALetsTryThatGameMode::ALetsTryThatGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Player/SideScrollerBP/Blueprints/SideScrollerCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Characters/Player/SideScrollerBP/Blueprints/SideScrollerCharacter"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
